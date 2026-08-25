@@ -1,0 +1,13 @@
+# Python build & virtual environments
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Model binaries (large files)
+models/*.pkl
+!models/.gitkeep
+
+# System files
+.DS_Store
+Thumbs.db
