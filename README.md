@@ -1,4 +1,4 @@
-# 🚌 Almaty BRT Analytics & Predictive Infrastructure Platform
+# 🚈 Almaty BRT Analytics & Predictive Infrastructure Platform
 
 ![Almaty BRT Concept](./assets/brt-concept.png)
 
