@@ -1,62 +1,59 @@
-# 🚌 Almaty BRT Analytics & Predictive Infrastructure Platform
+# 🚌 Almaty BRT Analytics & Prediction Platform
 
-An end-to-end Data Science and Machine Learning project analyzing the urban transit transformation in Almaty, Kazakhstan. This repository models travel time optimization, collision risk reduction at turning points, fare evasion prevention, and traffic signal synchronization for high-speed Bus Rapid Transit (BRT) lines.
+![Almaty BRT Concept](./assets/brt-concept.jpg)
 
----
-
-## 📸 Station Architecture & Infrastructure Concept
-
-To solve the conflict between high-speed transit and urban safety, this project models an isolated corridor system combined with turnstile-controlled access.
-
-![Almaty BRT Station Concept](assets/brt-concept.jpg)
-
-### Key Urban & Engineering Principles:
-* **Closed Station Architecture:** Enclosed glass platforms equipped with turnstiles (Onay integration, similar to the Istanbul Metrobüs / Metro system) enforce pre-boarding payment and minimize fare evasion.
-* **Rapid Dwell-Time Boarding:** Simultaneous multi-door boarding level with the platform reduces stop duration from 40 seconds to under 10 seconds.
-* **High-Speed Dedicated Lane:** Physical barriers isolate the bus lane, allowing speed limits up to 70 km/h.
-* **Transit Signal Priority (TSP):** AI-driven traffic signals grant green light priority to approaching BRT units while managing turning conflicts for private vehicles on major arteries (such as Tole Bi St).
+An end-to-end Data Science and Machine Learning project designed to analyze urban transit movement and predict bus delays across the Bus Rapid Transit (BRT) network in Almaty, Kazakhstan.
 
 ---
 
-## 📌 Urban Problem & System Trade-Offs
+## 📌 Project Overview
 
-Almaty faces severe congestion and air quality challenges. Replacing standard street buses with a dedicated BRT backbone presents specific urban design trade-offs:
+This platform processes key urban traffic metrics—such as peak hours, weather conditions, lane isolation, average speed, and intersection conflict risks—to deliver real-time delay predictions for public transport optimization.
 
-1. **Road Width vs. Closed Stations:**
-   * *Challenge:* Constructing wide Metro-style platforms on narrow street segments removes 1–2 traffic lanes for private vehicles.
-   * *Solution:* Implementation of asymmetric staggered stops (positioning opposing direction stops on opposite sides of intersections) and narrow 1.5m enclosed modules.
-2. **Turning Conflicts at Intersections:**
-   * *Challenge:* Uncontrolled vehicle left/right turns across high-speed dedicated lanes present severe collision risks.
-   * *Solution:* Predictive Machine Learning algorithms evaluate approach timing and dynamically cycle traffic lights to halt turning cars while BRT units pass.
+* **Target Output:** Bus delay duration in minutes.
+* **Core Model:** Gradient Boosting Regressor (`scikit-learn`).
 
 ---
 
-## 🔬 Machine Learning Architecture
+## 📊 Model Evaluation Metrics
 
-The core pipeline evaluates corridor efficiency and predicts travel delays using standard regression models (`GradientBoostingRegressor`, `RandomForestRegressor`).
+The Machine Learning pipeline was evaluated on an independent test dataset using standard regression evaluation metrics:
 
-### Model Features:
-* `street_width`: Total road width in meters.
-* `traffic_density`: Real-time traffic congestion score (0.0 to 1.0).
-* `is_peak_hour`: Binary indicator for rush-hour windows.
-* `station_type`: `0` for Open Stops, `1` for Closed Turnstile Platforms.
-* `turn_conflict_points`: Count of unregulated turning driveways/intersections.
-* `tsp_enabled`: Binary indicator for active Transit Signal Priority.
-* **Target Variable (`delay_minutes`):** Predicted transit delay along the segment.
+### 1. R² Score (Coefficient of Determination)
+Measures the proportion of variance in bus delays predictable from the feature set:
+$$R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}$$
+
+* **Result:** `0.8844` (88.44% of delay variance explained by the model)
 
 ---
 
-## 🛠️ Project Structure
+### 2. MAE (Mean Absolute Error)
+Calculates the average magnitude of absolute prediction errors in minutes:
+$$\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} \vert{}y_i - \hat{y}_i\vert{}$$
+
+* **Result:** `0.4616` minutes (~28 seconds average prediction error)
+
+---
+
+### 3. MSE (Mean Squared Error)
+Measures the mean of squared error differences, penalizing larger outliers:
+$$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
+
+* **Result:** `0.4671`
+
+---
+
+## 📁 Repository Structure
 
 ```text
-almaty-brt-bot/
+.
 ├── assets/
-│   └── brt-concept.jpg       # High-speed enclosed station visual concept
+│   └── brt-concept.jpg       # Project visual asset
 ├── data/
-│   └── almaty_brt_dataset.csv # Generated traffic dataset
+│   └── almaty_brt_dataset.csv # Generated/processed dataset
 ├── models/
-│   ├── brt_gb_model.pkl      # Trained Gradient Boosting binary
-│   └── scaler.pkl            # StandardScaler artifact
-├── train.py                  # ML pipeline, data generation & model training
-├── requirements.txt          # Python dependencies
-└── README.md                 # Master documentation
+│   └── brt_gb_model.pkl      # Trained Gradient Boosting model
+├── .gitignore                # Git exclusion configuration
+├── README.md                 # Project documentation
+├── train.py                  # Model training pipeline
+└── predict.py                # CLI inference tool
