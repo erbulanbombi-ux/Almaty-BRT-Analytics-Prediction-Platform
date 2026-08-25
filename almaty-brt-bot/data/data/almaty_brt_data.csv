@@ -1,7 +1,0 @@
-hour,is_peak_hour,weather_condition,brt_lane_isolated,avg_speed_kmh,delay_minutes,conflict_risk_index
-8,1,clear,1,45.2,3.1,0.2
-9,1,rain,1,38.0,5.4,0.4
-14,0,clear,1,55.0,1.2,0.1
-18,1,clear,1,42.5,4.0,0.3
-19,1,snow,0,25.0,12.8,0.8
-22,0,clear,1,65.0,0.5,0.1
