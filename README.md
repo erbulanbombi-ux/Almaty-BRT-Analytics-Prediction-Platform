@@ -1,4 +1,4 @@
-# 🚌 Almaty BRT Analytics & Predictive Infrastructure Platform
+# 🚈 Almaty BRT Analytics & Predictive Infrastructure Platform
 
 ![Almaty BRT Concept](./assets/brt-concept.png)
 
@@ -6,7 +6,22 @@ An end-to-end Data Science and Machine Learning platform analyzing urban transit
 
 ---
 
-## 📸 Station Architecture & Infrastructure Concept
+## 📸 Phase 1: Real-World Baseline Infrastructure Analysis
+
+To build an accurate delay prediction model, real-world conflict points across unmanaged Almaty intersections were photographed and analyzed:
+
+| Unregulated Turning Conflict | Pedestrian & Vehicle Conflict Zone |
+| :---: | :---: |
+| ![Intersection View 1](./assets/real-intersection-1.jpg) | ![Intersection View 2](./assets/real-intersection-2.jpg) |
+
+### ⚠️ Identified Infrastructure Vulnerabilities:
+* **Unregulated Left Turns:** Vehicles turning left across uncontrolled corridors force oncoming traffic to brake, significantly raising the `conflict_risk_index`.
+* **Micro-mobility Interference:** Mopeds and bicycles share lanes with motor vehicles without designated barriers, causing unpredictable speed drops.
+* **Pedestrian Crosswalk Proximity:** Uncontrolled zebra crossings directly after turning points create bottleneck delays of 1.5–3.0 minutes during rush hours.
+
+---
+
+## 🏗️ Phase 2: Station Architecture & Infrastructure Concept
 
 To resolve conflicts between high-speed transit and urban safety, this project models an isolated corridor system combined with turnstile-controlled station access.
 
@@ -37,6 +52,7 @@ The core ML pipeline evaluates corridor delay drivers using a **Gradient Boostin
 
 ### 1. R² Score (Coefficient of Determination)
 Measures the proportion of variance in bus delays predictable from the feature set:
+
 $$R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}$$
 
 * **Result:** `0.8844` (88.44% of delay variance explained by the model)
@@ -45,6 +61,7 @@ $$R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar
 
 ### 2. MAE (Mean Absolute Error)
 Calculates the average magnitude of absolute prediction errors in minutes:
+
 $$\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} \vert{}y_i - \hat{y}_i\vert{}$$
 
 * **Result:** `0.4616` minutes (~28 seconds average prediction error)
@@ -53,6 +70,7 @@ $$\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} \vert{}y_i - \hat{y}_i\vert{}$$
 
 ### 3. MSE (Mean Squared Error)
 Measures the mean of squared error differences, penalizing larger outliers:
+
 $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 
 * **Result:** `0.4671`
@@ -64,12 +82,14 @@ $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 ```text
 .
 ├── assets/
-│   └── brt-concept.png       # High-speed enclosed station visual concept
+│   ├── brt-concept.png           # High-speed enclosed station concept
+│   ├── real-intersection-1.jpg   # Real-world turning conflict photo
+│   └── real-intersection-2.jpg   # Real-world crosswalk conflict photo
 ├── data/
-│   └── almaty_brt_dataset.csv # Generated traffic dataset
+│   └── almaty_brt_dataset.csv     # Generated traffic dataset
 ├── models/
-│   └── brt_gb_model.pkl      # Trained Gradient Boosting model
-├── .gitignore                # Git exclusion configuration
-├── README.md                 # Master project documentation
-├── train.py                  # Model training pipeline
-└── predict.py                # CLI inference tool
+│   └── brt_gb_model.pkl          # Trained Gradient Boosting model
+├── .gitignore                    # Git exclusion configuration
+├── README.md                     # Master project documentation
+├── train.py                      # Model training pipeline
+└── predict.py                    # CLI inference tool
