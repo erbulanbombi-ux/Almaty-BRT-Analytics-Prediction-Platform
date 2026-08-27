@@ -14,8 +14,8 @@ To build an accurate delay prediction model, real-world conflict points across u
 | :---: | :---: |
 | ![Intersection View 1](./assets/real-intersection-1.jpg) | ![Intersection View 2](./assets/real-intersection-2.jpg) |
 
-### ⚠️ Identified Infrastructure Vulnerabilities:
-* **Unregulated Left Turns:** Vehicles turning left across uncontrolled corridors force oncoming traffic to brake, significantly raising the `conflict_risk_index`.
+### ⚠️ Identified Infrastructure Vulnerabilities
+* **Unregulated Left Turns:** Vehicles turning left across uncontrolled corridors force oncoming traffic to brake, significantly raising the conflict risk index.
 * **Micro-mobility Interference:** Mopeds and bicycles share lanes with motor vehicles without designated barriers, causing unpredictable speed drops.
 * **Pedestrian Crosswalk Proximity:** Uncontrolled zebra crossings directly after turning points create bottleneck delays of 1.5–3.0 minutes during rush hours.
 
@@ -26,10 +26,10 @@ To build an accurate delay prediction model, real-world conflict points across u
 To resolve conflicts between high-speed transit and urban safety, this project models an isolated corridor system combined with turnstile-controlled station access.
 
 ### Key Urban & Engineering Principles
-* **Closed Station Architecture:** Enclosed glass platforms equipped with turnstiles (Onay integration, similar to the Istanbul Metrobüs / Metro system) enforce pre-boarding payment and eliminate fare evasion.
+* **Closed Station Architecture (Onay! & İstanbulkart System):** Enclosed glass platforms equipped with turnstiles integrated with the **Onay!** ticketing system — modeled after the high-efficiency **İstanbulkart / Metrobüs** infrastructure in Istanbul. This enforces pre-boarding payment and completely eliminates fare evasion and dwell-time payment friction.
 * **Rapid Dwell-Time Boarding:** Simultaneous multi-door level boarding reduces stop duration from 40 seconds to under 10 seconds.
 * **High-Speed Dedicated Lane:** Physical barriers isolate the bus lane, enabling operational speeds up to 70 km/h.
-* **Transit Signal Priority (TSP):** AI-driven traffic signals grant green light priority to approaching BRT units while managing turning conflicts for private vehicles on major arteries (such as Tole Bi St).
+* **Transit Signal Priority (TSP):** AI-driven traffic signals grant green light priority to approaching BRT units while managing turning conflicts for private vehicles on major arteries (such as Tole Bi St and Timiryazev St).
 
 ---
 
@@ -52,15 +52,16 @@ To understand key bottlenecks along the transit corridors, feature importance we
 
 ![Feature Importance](./assets/feature_importance.png)
 
-### Key Insights:
+### Key Insights
 * **Conflict Risk Index & Peak Hours:** Unregulated turning points during rush hours account for over **45%** of predictable delay variations.
 * **BRT Lane Isolation:** Physical segregation of bus corridors directly mitigates speed drop risks caused by micro-mobility vehicles and private cars.
+* **Topography & Elevation Slope:** Urban slope changes in Almaty (north-south elevation gain) measurably impact acceleration and delay recovery times.
 
 ---
 
 ## 📊 Model Evaluation Metrics
 
-The core ML pipeline evaluates corridor delay drivers using a **Gradient Boosting Regressor** (`scikit-learn`). Evaluated on an independent test dataset, the model achieved the following performance:
+The core ML pipeline evaluates corridor delay drivers using an **XGBoost / Gradient Boosting Regressor**. Evaluated on an independent test dataset, the model achieved the following performance:
 
 ### 1. R² Score (Coefficient of Determination)
 Measures the proportion of variance in bus delays predictable from the feature set:
@@ -89,21 +90,8 @@ $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 
 ---
 
-## 📁 Repository Structure
+## 🚀 Quick Start & Usage
 
-```text
-.
-├── assets/
-│   ├── brt-concept.png           # High-speed enclosed station concept
-│   ├── feature_importance.png    # Data analysis feature weight chart
-│   ├── real-intersection-1.jpg   # Real-world turning conflict photo
-│   └── real-intersection-2.jpg   # Real-world crosswalk conflict photo
-├── data/
-│   └── almaty_brt_dataset.csv     # Generated traffic dataset
-├── models/
-│   └── brt_gb_model.pkl          # Trained Gradient Boosting model
-├── .gitignore                    # Git exclusion configuration
-├── README.md                     # Master project documentation
-├── train.py                      # Model training pipeline
-├── predict.py                    # CLI inference tool
-└── visualize.py                  # EDA & feature importance script
+1. **Generate Dataset (with OSMnx & Topography):**
+   ```bash
+   python data_generator.py

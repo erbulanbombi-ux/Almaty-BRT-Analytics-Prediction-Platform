@@ -1,21 +1,32 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 import joblib
 
-df = pd.read_csv('data/almaty_brt_dataset.csv')
-model = joblib.load('models/brt_gb_model.pkl')
+def plot_analytics():
+    df = pd.read_csv('data/brt_data.csv')
+    model = joblib.load('models/brt_model.joblib')
+    
+    features = [
+        'corridor_id', 'elevation_slope_deg', 'lane_isolation_score',
+        'turning_conflicts', 'passenger_density', 'weather_impact',
+        'is_peak_hour', 'delay_lag_15m', 'delay_lag_30m'
+    ]
+    
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    
+    importances = model.feature_importances_
+    feat_df = pd.DataFrame({'Feature': features, 'Importance': importances}).sort_values('Importance', ascending=False)
+    
+    sns.barplot(data=feat_df, x='Importance', y='Feature', ax=axes[0], palette='viridis')
+    axes[0].set_title('Feature Importance')
+    
+    sns.scatterplot(data=df, x='lane_isolation_score', y='delay_minutes', hue='is_peak_hour', alpha=0.6, ax=axes[1])
+    axes[1].set_title('Delay vs Lane Isolation')
+    
+    plt.tight_layout()
+    plt.savefig('brt_analytics.png')
+    plt.show()
 
-feature_names = ['hour', 'is_peak_hour', 'weather_condition', 'brt_lane_isolated', 'avg_speed_kmh', 'conflict_risk_index']
-importances = model.feature_importances_
-
-plt.figure(figsize=(10, 5))
-indices = np.argsort(importances)[::-1]
-plt.bar([feature_names[i] for i in indices], importances[indices], color='#2b5c8f')
-plt.title('Almaty BRT Delay Drivers (Feature Importance)')
-plt.ylabel('Importance Weight')
-plt.xticks(rotation=20)
-plt.tight_layout()
-
-plt.savefig('assets/feature_importance.png', dpi=300)
-print("✅ Chart saved to assets/feature_importance.png")
+if __name__ == "__main__":
+    plot_analytics()
