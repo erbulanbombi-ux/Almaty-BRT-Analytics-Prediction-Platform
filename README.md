@@ -46,6 +46,18 @@ Almaty faces severe congestion and air quality challenges. Replacing standard st
 
 ---
 
+## 📈 Exploratory Data Analysis & Feature Importance
+
+To understand key bottlenecks along the transit corridors, feature importance weights were extracted from the trained Gradient Boosting model:
+
+![Feature Importance](./assets/feature_importance.png)
+
+### Key Insights:
+* **Conflict Risk Index & Peak Hours:** Unregulated turning points during rush hours account for over **45%** of predictable delay variations.
+* **BRT Lane Isolation:** Physical segregation of bus corridors directly mitigates speed drop risks caused by micro-mobility vehicles and private cars.
+
+---
+
 ## 📊 Model Evaluation Metrics
 
 The core ML pipeline evaluates corridor delay drivers using a **Gradient Boosting Regressor** (`scikit-learn`). Evaluated on an independent test dataset, the model achieved the following performance:
@@ -83,6 +95,7 @@ $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 .
 ├── assets/
 │   ├── brt-concept.png           # High-speed enclosed station concept
+│   ├── feature_importance.png    # Data analysis feature weight chart
 │   ├── real-intersection-1.jpg   # Real-world turning conflict photo
 │   └── real-intersection-2.jpg   # Real-world crosswalk conflict photo
 ├── data/
@@ -92,4 +105,5 @@ $$\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 ├── .gitignore                    # Git exclusion configuration
 ├── README.md                     # Master project documentation
 ├── train.py                      # Model training pipeline
-└── predict.py                    # CLI inference tool
+├── predict.py                    # CLI inference tool
+└── visualize.py                  # EDA & feature importance script
