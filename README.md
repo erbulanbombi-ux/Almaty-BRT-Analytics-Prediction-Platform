@@ -1,4 +1,4 @@
-````markdown
+```markdown
 # 🚈 Almaty BRT Analytics & Predictive Infrastructure Platform 
 
 ![Almaty BRT Concept](./assets/brt-concept.png) 
@@ -710,4 +710,4 @@ For questions, issues, or suggestions:
 - Initial project release
 - XGBoost model training pipeline
 - FastAPI server with /predict endpoint
-````
+```
