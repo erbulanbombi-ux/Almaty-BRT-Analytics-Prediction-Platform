@@ -1,41 +1,75 @@
-import os
+import json
+import yaml
 import joblib
-import numpy as np
 import pandas as pd
-from xgboost import XGBRegressor
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from pathlib import Path
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.metrics import mean_absolute_error, root_mean_squared_error, r2_score
+
+def load_config(config_path="config.yaml"):
+    with open(config_path, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f)
 
 def train():
-    os.makedirs('models', exist_ok=True)
-    
-    df = pd.read_csv('data/brt_data.csv')
-    
-    features = [
-        'corridor_id', 'elevation_slope_deg', 'lane_isolation_score',
-        'turning_conflicts', 'passenger_density', 'weather_impact',
-        'is_peak_hour', 'delay_lag_15m', 'delay_lag_30m'
-    ]
-    
-    X = df[features]
-    y = df['delay_minutes']
-    
-    split_idx = int(len(df) * 0.8)
+    config = load_config()
+
+    Path(config['model']['reports_path']).parent.mkdir(parents=True, exist_ok=True)
+    Path(config['model']['save_path']).parent.mkdir(parents=True, exist_ok=True)
+
+    df = pd.read_csv(config['data']['raw_path'])
+
+    num_features = config['model']['features']['numeric']
+    cat_features = config['model']['features']['categorical']
+    target = config['model']['target']
+
+    X = df[num_features + cat_features]
+    y = df[target]
+
+    split_idx = int(len(df) * (1 - config['training']['test_size']))
     X_train, X_test = X.iloc[:split_idx], X.iloc[split_idx:]
     y_train, y_test = y.iloc[:split_idx], y.iloc[split_idx:]
-    
-    model = XGBRegressor(n_estimators=150, learning_rate=0.05, max_depth=5, random_state=42)
-    model.fit(X_train, y_train)
-    
-    preds = model.predict(X_test)
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', 'passthrough', num_features),
+            ('cat', OneHotEncoder(handle_unknown='ignore', sparse_output=False), cat_features)
+        ]
+    )
+
+    X_train_prep = preprocessor.fit_transform(X_train)
+    X_test_prep = preprocessor.transform(X_test)
+
+    model = HistGradientBoostingRegressor(
+        max_iter=config['training']['max_iter'],
+        learning_rate=config['training']['learning_rate'],
+        random_state=config['training']['random_state']
+    )
+
+    model.fit(X_train_prep, y_train)
+
+    preds = model.predict(X_test_prep)
+
     mae = mean_absolute_error(y_test, preds)
-    rmse = np.sqrt(mean_squared_error(y_test, preds))
+    rmse = root_mean_squared_error(y_test, preds)
     r2 = r2_score(y_test, preds)
-    
-    print(f"MAE: {mae:.2f}")
-    print(f"RMSE: {rmse:.2f}")
-    print(f"R2: {r2:.4f}")
-    
-    joblib.dump(model, 'models/brt_model.joblib')
+
+    metrics = {
+        "MAE": round(float(mae), 4),
+        "RMSE": round(float(rmse), 4),
+        "R2": round(float(r2), 4)
+    }
+
+    # Сохраняем отчет в metrics.json
+    with open(config['model']['reports_path'], 'w', encoding='utf-8') as f:
+        json.dump(metrics, f, indent=4)
+
+    # Сохраняем обученную модель
+    joblib.dump({'preprocessor': preprocessor, 'model': model}, config['model']['save_path'])
+
+    print(f"Metrics: {metrics}")
+    print("Model and metrics successfully saved!")
 
 if __name__ == "__main__":
     train()

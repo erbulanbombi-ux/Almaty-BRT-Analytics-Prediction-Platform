@@ -1,0 +1,27 @@
+data:
+  raw_path: "data/brt_data.csv"
+  processed_path: "data/processed_data.csv"
+
+model:
+  target: "delay_minutes"
+  features:
+    numeric:
+      - "elevation_slope_deg"
+      - "lane_isolation_score"
+      - "turning_conflicts"
+      - "passenger_density"
+      - "delay_lag_15m"
+      - "delay_lag_30m"
+    categorical:
+      - "corridor_id"
+      - "weather_impact"
+      - "is_peak_hour"
+  
+  save_path: "models/brt_model.joblib"
+  reports_path: "reports/metrics.json"
+
+training:
+  test_size: 0.2
+  random_state: 42
+  max_iter: 150
+  learning_rate: 0.05
