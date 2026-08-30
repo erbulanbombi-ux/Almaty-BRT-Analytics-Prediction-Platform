@@ -318,8 +318,8 @@ Process multiple predictions in a single request for corridor-level analysis.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/almaty-brt-bot.git
-cd almaty-brt-bot
+git clone https://github.com/yourusername/almaty-brt-Prediction-Platform.git
+cd almaty-brt-Prediction-Platform
 ```
 
 ### 2. Create Virtual Environment
