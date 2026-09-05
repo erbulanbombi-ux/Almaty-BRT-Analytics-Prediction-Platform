@@ -105,4 +105,4 @@ CI automatically runs training and tests on every push or pull request.
 
 ## License
 
-No project license has been specified yet. Add the actual license before public release and verify publication rights for all files in `assets/`.
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
