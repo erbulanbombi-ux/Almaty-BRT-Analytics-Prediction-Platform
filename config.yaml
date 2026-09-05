@@ -1,5 +1,5 @@
 data:
-  raw_path: "data/brt_data.csv"
+  raw_path: "data/lrt_data.csv"
   processed_path: "data/processed_data.csv"
 
 model:
@@ -17,7 +17,7 @@ model:
       - "weather_impact"
       - "is_peak_hour"
   
-  save_path: "models/brt_model.joblib"
+  save_path: "models/lrt_model.joblib"
   reports_path: "reports/metrics.json"
 
 training:

@@ -50,15 +50,18 @@ uvicorn app:app --reload
 Available endpoints:
 
 - `GET /health` - model status;
-- `POST /predict` - delay prediction from model features;
+- `POST /predict` - delay prediction with `predicted_delay_minutes`, `risk_level`, and an ISO 8601 UTC `timestamp`;
+- `POST /batch-predict` - multiple predictions, returning `results` and `processed_count`;
 - `POST /simulate` - movement scenario calculation;
 - `POST /route` - shortest route with Dijkstra.
+
+Invalid request bodies return HTTP 400 with `error_code: INVALID_INPUT`. Unexpected server failures return HTTP 500 with `error_code: INTERNAL_ERROR`.
 
 Interactive API documentation is available at `/docs`. The README intentionally keeps API examples short.
 
 ## Model and data
 
-`train.py` saves the model to `models/brt_model.joblib` and metrics to `reports/metrics.json`. The historical `brt_*` names remain for compatibility with the current files.
+`train.py` saves the model to `models/lrt_model.joblib` and metrics to `reports/metrics.json`.
 
 Model features include elevation, corridor isolation, turning conflicts, passenger demand, previous delays, corridor, weather, and peak-hour status. The target is `delay_minutes`.
 
@@ -80,6 +83,10 @@ Metrics from the current training run must not be treated as real-world LRT accu
 ├── predict.py                # Local prediction example
 ├── data_generator.py         # Synthetic data generator
 ├── visualize.py              # Charts and permutation importance
+├── assets/                   # Static assets
+├── cache/                    # Local cache (ignored by Git)
+├── models/                   # Saved model artifacts
+├── reports/                  # Training metrics
 ├── notebooks/01_eda.ipynb    # Exploratory notebook
 ├── tests/                    # Smoke tests
 ├── Dockerfile                # Containerized API

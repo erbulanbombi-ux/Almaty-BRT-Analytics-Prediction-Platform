@@ -5,8 +5,8 @@ import joblib
 from sklearn.inspection import permutation_importance
 
 def plot_analytics():
-    df = pd.read_csv('data/brt_data.csv')
-    saved_objects = joblib.load('models/brt_model.joblib')
+    df = pd.read_csv('data/lrt_data.csv')
+    saved_objects = joblib.load('models/lrt_model.joblib')
     model = saved_objects['model']
     preprocessor = saved_objects['preprocessor']
     
