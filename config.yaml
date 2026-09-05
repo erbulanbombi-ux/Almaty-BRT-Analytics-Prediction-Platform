@@ -16,7 +16,6 @@ model:
       - "corridor_id"
       - "weather_impact"
       - "is_peak_hour"
-  
   save_path: "models/lrt_model.joblib"
   reports_path: "reports/metrics.json"
 
