@@ -1,268 +1,64 @@
-```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Almaty LRT — Будущее городской мобильности</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Three.js -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Almaty LRT | Simulation Lab</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <header class="topbar">
+    <a class="brand" href="#demo"><span>ALMATY</span><strong>LRT</strong></a>
+    <span class="status"><i></i> simulation lab / v1</span>
+  </header>
 
-<header class="navbar">
-    <div class="logo">
-        <span>ALMATY</span>
-        <b>LRT</b>
-    </div>
-
-    <nav>
-        <a href="#hero">Главная</a>
-        <a href="#facts">Факты</a>
-        <a href="#tech">Технологии</a>
-    </nav>
-
-    <button class="nav-button">375 сетей</button>
-</header>
-
-
-<main>
-
-    <!-- HERO -->
-    <section id="hero" class="hero">
-
-        <div class="hero-content">
-
-            <div class="badge">
-                ● ALMATY LRT PROJECT
-            </div>
-
-            <h1>
-                Город движется
-                <span>вперёд.</span>
-            </h1>
-
-            <p>
-                Интерактивная визуализация будущей системы
-                легкорельсового транспорта Алматы.
-            </p>
-
-            <div class="hero-stats">
-                <div>
-                    <strong>18.3</strong>
-                    <small>км трассы</small>
-                </div>
-
-                <div>
-                    <strong>35</strong>
-                    <small>км/ч</small>
-                </div>
-
-                <div>
-                    <strong>34</strong>
-                    <small>станции</small>
-                </div>
-            </div>
-
-        </div>
-
-
-        <!-- 3D WINDOW -->
-        <div class="viewer-wrapper">
-
-            <div class="viewer-buttons">
-
-                <button class="view-btn active" data-view="train">
-                    🚋 Поезд 3D
-                </button>
-
-                <button class="view-btn" data-view="station">
-                    🚉 Станция
-                </button>
-
-                <button class="view-btn" data-view="xray">
-                    🔧 375 коммуникаций
-                </button>
-
-            </div>
-
-            <div id="viewer"></div>
-
-            <div class="viewer-hint">
-                ↔ Вращайте мышью &nbsp; • &nbsp; Колесо — масштаб
-            </div>
-
-        </div>
-
+  <main id="demo">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">01 / LRT NETWORK INTELLIGENCE</p>
+        <h1>Проверь,<br><em>как движется</em> город.</h1>
+        <p class="lede">Маршрут, ML-прогноз и сценарий движения в одном интерактивном демо.</p>
+      </div>
+      <div class="intro-note"><span>LIVE MODEL</span><b>delay prediction</b><small>synthetic data / research prototype</small></div>
     </section>
 
-
-    <!-- FACTS -->
-    <section id="facts" class="facts">
-
-        <div class="section-heading">
-            <span>01 — ПОЧЕМУ LRT</span>
-            <h2>Транспорт, который<br>не зависит от пробок.</h2>
+    <section class="workspace">
+      <div class="network-panel panel">
+        <div class="panel-head"><div><span class="eyebrow">02 / ROUTE PLANNER</span><h2>LRT-сеть</h2></div><span class="algorithm">DIJKSTRA</span></div>
+        <div class="route-controls">
+          <label>Откуда<select id="startStation"><option>LRT-1</option><option>LRT-2</option><option>LRT-3</option><option>LRT-4</option><option>LRT-5</option><option>LRT-6</option></select></label>
+          <span class="arrow">→</span>
+          <label>Куда<select id="endStation"><option>LRT-6</option><option>LRT-5</option><option>LRT-4</option><option>LRT-3</option><option>LRT-2</option><option>LRT-1</option></select></label>
         </div>
+        <div id="network" class="network" aria-label="Граф LRT маршрута"></div>
+        <div class="route-result"><div><span>ОПТИМАЛЬНЫЙ МАРШРУТ</span><strong id="routePath">LRT-1 → LRT-3 → LRT-5 → LRT-6</strong></div><div><span>ДИСТАНЦИЯ</span><strong id="routeDistance">12.5 км</strong></div></div>
+      </div>
 
-
-        <div class="cards">
-
-            <article class="info-card">
-
-                <div class="card-number">01</div>
-
-                <div class="icon">⚡</div>
-
-                <h3>35 км/ч</h3>
-
-                <p>
-                    На участке по Толе би LRT сможет двигаться
-                    с предсказуемой скоростью, независимо от
-                    загруженности автомобильных дорог.
-                </p>
-
-                <div class="card-line"></div>
-
-                <span>ПРЕДСКАЗУЕМОЕ ВРЕМЯ В ПУТИ</span>
-
-            </article>
-
-
-            <article class="info-card">
-
-                <div class="card-number">02</div>
-
-                <div class="icon">🛡️</div>
-
-                <h3>34 станции</h3>
-
-                <p>
-                    Среднее расстояние между остановками —
-                    около 700 метров. Посадка рассчитана
-                    примерно на 40 секунд.
-                </p>
-
-                <div class="card-line"></div>
-
-                <span>ONAY / QR • КОНТРОЛЬ ДОСТУПА</span>
-
-            </article>
-
-
-            <article class="info-card">
-
-                <div class="card-number">03</div>
-
-                <div class="icon">🔧</div>
-
-                <h3>375 сетей</h3>
-
-                <p>
-                    Под будущей трассой необходимо было
-                    переустроить сотни инженерных коммуникаций,
-                    расположенных под землёй.
-                </p>
-
-                <div class="card-line"></div>
-
-                <span>ИНЖЕНЕРНАЯ ИНФРАСТРУКТУРА</span>
-
-            </article>
-
-        </div>
-
+      <div class="prediction-panel panel">
+        <div class="panel-head"><div><span class="eyebrow">03 / ML PREDICTION</span><h2>Прогноз задержки</h2></div><span class="model-tag">HGBR</span></div>
+        <div class="metric"><strong id="prediction">6.54</strong><span>минут<br>ожидаемой задержки</span></div>
+        <div class="meter"><div id="meterFill"></div></div>
+        <div class="metric-row"><span>Сценарий</span><b id="scenarioLabel">смешанный поток</b></div>
+        <div class="metric-row"><span>Надёжность графика</span><b id="onTime">55%</b></div>
+      </div>
     </section>
 
-
-    <!-- TECH -->
-    <section id="tech" class="technology">
-
-        <div class="tech-text">
-
-            <span>02 — ИНФРАСТРУКТУРА</span>
-
-            <h2>
-                Что скрывается
-                под городом?
-            </h2>
-
-            <p>
-                Строительство LRT — это не только рельсы
-                и станции. Под землёй проходит сложная сеть
-                коммуникаций, которую необходимо учитывать
-                при строительстве трассы.
-            </p>
-
-            <div class="tech-numbers">
-
-                <div>
-                    <strong>375</strong>
-                    <span>переустроенных сетей</span>
-                </div>
-
-                <div>
-                    <strong>18.3 км</strong>
-                    <span>длина трассы</span>
-                </div>
-
-                <div>
-                    <strong>2027</strong>
-                    <span>планируемый запуск</span>
-                </div>
-
-            </div>
-
+    <section class="simulation panel">
+      <div class="panel-head simulation-head"><div><span class="eyebrow">04 / WHAT-IF SIMULATION</span><h2>Измени условия движения</h2></div><button id="resetButton" type="button">Сбросить</button></div>
+      <div class="simulation-grid">
+        <div class="sliders">
+          <label class="slider-label"><span><b>Traffic</b><small>нагрузка на пересечения</small></span><output id="trafficValue">45%</output></label><input id="traffic" type="range" min="0" max="100" value="45">
+          <label class="slider-label"><span><b>Passenger demand</b><small>плотность пассажиропотока</small></span><output id="demandValue">50%</output></label><input id="demand" type="range" min="0" max="100" value="50">
+          <label class="slider-label"><span><b>LRT frequency</b><small>рейсов в час</small></span><output id="frequencyValue">15</output></label><input id="frequency" type="range" min="6" max="30" value="15">
         </div>
-
-        <div class="tech-visual">
-
-            <div class="grid"></div>
-
-            <div class="xray-circle">
-                <span>375</span>
-                <small>NETWORKS</small>
-            </div>
-
-            <div class="connection connection-1"></div>
-            <div class="connection connection-2"></div>
-            <div class="connection connection-3"></div>
-            <div class="connection connection-4"></div>
-
-        </div>
-
+        <div class="simulation-output"><div class="output-card accent"><span>DELAY</span><strong id="simDelay">4.12 <small>min</small></strong><div class="bar"><i id="delayBar"></i></div></div><div class="output-card"><span>TRAVEL TIME</span><strong id="travelTime">26.20 <small>min</small></strong><div class="bar"><i id="timeBar"></i></div></div></div>
+      </div>
+      <p class="formula">Сценарий пересчитывается локально по формуле прототипа. Для production-модели подключи API <code>/simulate</code>.</p>
     </section>
 
-
-    <!-- FOOTER -->
-    <footer>
-
-        <div class="logo">
-            <span>ALMATY</span>
-            <b>LRT</b>
-        </div>
-
-        <p>
-            Интерактивный концепт городской инфраструктуры Алматы
-        </p>
-
-        <span class="copyright">
-            © 2026 Almaty LRT Project
-        </span>
-
-    </footer>
-
-</main>
-
-
-<script src="script.js"></script>
-
+    <section class="flow"><span>INPUT</span><b>route stations</b><i>→</i><span>MODEL</span><b>predicted delay</b><i>→</i><span>OUTPUT</span><b>simulation result</b></section>
+  </main>
+  <footer><span>ALMATY LRT / RESEARCH PROTOTYPE</span><span>© 2026</span></footer>
+  <script src="script.js"></script>
 </body>
 </html>
-```

@@ -6,6 +6,7 @@ from fastapi.testclient import TestClient
 
 import app
 import train
+from route_planner import dijkstra, simulate
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,3 +45,18 @@ def test_api_health_and_prediction():
     )
     assert response.status_code == 200
     assert response.json()["predicted_delay_minutes"] >= 0
+
+
+def test_dijkstra_returns_shortest_route():
+    result = dijkstra("LRT-1", "LRT-6")
+    assert result == {
+        "stations": ["LRT-1", "LRT-3", "LRT-5", "LRT-6"],
+        "distance_km": 12.5,
+    }
+
+
+def test_simulation_responds_to_frequency():
+    low_frequency = simulate(50, 50, 6)
+    high_frequency = simulate(50, 50, 30)
+    assert high_frequency["delay_minutes"] < low_frequency["delay_minutes"]
+    assert high_frequency["travel_time_minutes"] < low_frequency["travel_time_minutes"]
