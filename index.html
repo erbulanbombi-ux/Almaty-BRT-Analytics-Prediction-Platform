@@ -1,0 +1,268 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Almaty LRT — Будущее городской мобильности</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        <span>ALMATY</span>
+        <b>LRT</b>
+    </div>
+
+    <nav>
+        <a href="#hero">Главная</a>
+        <a href="#facts">Факты</a>
+        <a href="#tech">Технологии</a>
+    </nav>
+
+    <button class="nav-button">375 сетей</button>
+</header>
+
+
+<main>
+
+    <!-- HERO -->
+    <section id="hero" class="hero">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                ● ALMATY LRT PROJECT
+            </div>
+
+            <h1>
+                Город движется
+                <span>вперёд.</span>
+            </h1>
+
+            <p>
+                Интерактивная визуализация будущей системы
+                легкорельсового транспорта Алматы.
+            </p>
+
+            <div class="hero-stats">
+                <div>
+                    <strong>18.3</strong>
+                    <small>км трассы</small>
+                </div>
+
+                <div>
+                    <strong>35</strong>
+                    <small>км/ч</small>
+                </div>
+
+                <div>
+                    <strong>34</strong>
+                    <small>станции</small>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- 3D WINDOW -->
+        <div class="viewer-wrapper">
+
+            <div class="viewer-buttons">
+
+                <button class="view-btn active" data-view="train">
+                    🚋 Поезд 3D
+                </button>
+
+                <button class="view-btn" data-view="station">
+                    🚉 Станция
+                </button>
+
+                <button class="view-btn" data-view="xray">
+                    🔧 375 коммуникаций
+                </button>
+
+            </div>
+
+            <div id="viewer"></div>
+
+            <div class="viewer-hint">
+                ↔ Вращайте мышью &nbsp; • &nbsp; Колесо — масштаб
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FACTS -->
+    <section id="facts" class="facts">
+
+        <div class="section-heading">
+            <span>01 — ПОЧЕМУ LRT</span>
+            <h2>Транспорт, который<br>не зависит от пробок.</h2>
+        </div>
+
+
+        <div class="cards">
+
+            <article class="info-card">
+
+                <div class="card-number">01</div>
+
+                <div class="icon">⚡</div>
+
+                <h3>35 км/ч</h3>
+
+                <p>
+                    На участке по Толе би LRT сможет двигаться
+                    с предсказуемой скоростью, независимо от
+                    загруженности автомобильных дорог.
+                </p>
+
+                <div class="card-line"></div>
+
+                <span>ПРЕДСКАЗУЕМОЕ ВРЕМЯ В ПУТИ</span>
+
+            </article>
+
+
+            <article class="info-card">
+
+                <div class="card-number">02</div>
+
+                <div class="icon">🛡️</div>
+
+                <h3>34 станции</h3>
+
+                <p>
+                    Среднее расстояние между остановками —
+                    около 700 метров. Посадка рассчитана
+                    примерно на 40 секунд.
+                </p>
+
+                <div class="card-line"></div>
+
+                <span>ONAY / QR • КОНТРОЛЬ ДОСТУПА</span>
+
+            </article>
+
+
+            <article class="info-card">
+
+                <div class="card-number">03</div>
+
+                <div class="icon">🔧</div>
+
+                <h3>375 сетей</h3>
+
+                <p>
+                    Под будущей трассой необходимо было
+                    переустроить сотни инженерных коммуникаций,
+                    расположенных под землёй.
+                </p>
+
+                <div class="card-line"></div>
+
+                <span>ИНЖЕНЕРНАЯ ИНФРАСТРУКТУРА</span>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- TECH -->
+    <section id="tech" class="technology">
+
+        <div class="tech-text">
+
+            <span>02 — ИНФРАСТРУКТУРА</span>
+
+            <h2>
+                Что скрывается
+                под городом?
+            </h2>
+
+            <p>
+                Строительство LRT — это не только рельсы
+                и станции. Под землёй проходит сложная сеть
+                коммуникаций, которую необходимо учитывать
+                при строительстве трассы.
+            </p>
+
+            <div class="tech-numbers">
+
+                <div>
+                    <strong>375</strong>
+                    <span>переустроенных сетей</span>
+                </div>
+
+                <div>
+                    <strong>18.3 км</strong>
+                    <span>длина трассы</span>
+                </div>
+
+                <div>
+                    <strong>2027</strong>
+                    <span>планируемый запуск</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tech-visual">
+
+            <div class="grid"></div>
+
+            <div class="xray-circle">
+                <span>375</span>
+                <small>NETWORKS</small>
+            </div>
+
+            <div class="connection connection-1"></div>
+            <div class="connection connection-2"></div>
+            <div class="connection connection-3"></div>
+            <div class="connection connection-4"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="logo">
+            <span>ALMATY</span>
+            <b>LRT</b>
+        </div>
+
+        <p>
+            Интерактивный концепт городской инфраструктуры Алматы
+        </p>
+
+        <span class="copyright">
+            © 2026 Almaty LRT Project
+        </span>
+
+    </footer>
+
+</main>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
+```

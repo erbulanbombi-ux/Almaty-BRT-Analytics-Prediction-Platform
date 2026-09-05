@@ -1,9 +1,9 @@
-# 🚈 Almaty BRT Analytics & Predictive Infrastructure Platform 
+# 🚈 Almaty LRT Analytics & Predictive Infrastructure Platform 
 
 
-![Almaty BRT Concept](./assets/brt-concept.png) 
+![Almaty LRT Concept](./assets/lrt-concept.png) 
 
-An end-to-end Data Science and Machine Learning platform analyzing urban transit efficiency, station design trade-offs, and predicting bus delays across the Bus Rapid Transit (BRT) network in Almaty, Kazakhstan. This project combines real-world infrastructure analysis with predictive modeling to optimize bus rapid transit operations and urban mobility.
+An end-to-end Data Science and Machine Learning platform analyzing urban transit efficiency, station design trade-offs, and predicting bus delays across the Light Rail Transit (LRT) network in Almaty, Kazakhstan. This project combines real-world infrastructure analysis with predictive modeling to optimize light rail transit operations and urban mobility.
 
 **Tech Stack:** Python, FastAPI, XGBoost, Pandas, NumPy, Scikit-learn, Pydantic
 
@@ -34,14 +34,14 @@ To resolve conflicts between high-speed transit and urban safety, this project m
 
 * **Closed Station Architecture (Onay! & İstanbulkart System):** Enclosed glass platforms equipped with turnstiles integrated with the **Onay!** ticketing system — modeled after the high-efficiency **İstanbulkart / Metrobüs** infrastructure in Istanbul. This enforces pre-boarding payment and completely eliminates fare evasion and dwell-time payment friction. 
 * **Rapid Dwell-Time Boarding:** Simultaneous multi-door level boarding reduces stop duration from 40 seconds to under 10 seconds. 
-* **High-Speed Dedicated Lane:** Physical barriers isolate the bus lane, enabling operational speeds up to 70 km/h. 
-* **Transit Signal Priority (TSP):** AI-driven traffic signals grant green light priority to approaching BRT units while managing turning conflicts for private vehicles on major arteries (such as Tole Bi St and Timiryazev St). 
+* **High-Speed Dedicated Lane:** Physical barriers isolate the rail corridor, enabling operational speeds up to 70 km/h. 
+* **Transit Signal Priority (TSP):** AI-driven traffic signals grant green light priority to approaching LRT units while managing turning conflicts for private vehicles on major arteries (such as Tole Bi St and Timiryazev St). 
 
 ---
 
 ## 📌 Urban Problem & System Trade-Offs 
 
-Almaty faces severe congestion and air quality challenges. Replacing standard street buses with a dedicated BRT backbone presents specific urban design trade-offs: 
+Almaty faces severe congestion and air quality challenges. Replacing standard street buses with a dedicated LRT backbone presents specific urban design trade-offs: 
 
 ### 1. Road Width vs. Closed Stations
 
@@ -51,7 +51,7 @@ Almaty faces severe congestion and air quality challenges. Replacing standard st
 ### 2. Turning Conflicts at Intersections
 
 * **Challenge:** Uncontrolled vehicle turns across high-speed dedicated lanes present severe collision risks. 
-* **Solution:** Predictive Machine Learning algorithms evaluate approach timing and dynamically cycle traffic lights to halt turning vehicles while BRT units pass. 
+* **Solution:** Predictive Machine Learning algorithms evaluate approach timing and dynamically cycle traffic lights to halt turning vehicles while LRT units pass. 
 
 ### 3. Station Placement & Land Acquisition
 
@@ -63,7 +63,7 @@ Almaty faces severe congestion and air quality challenges. Replacing standard st
 ## 📁 Project Directory Structure
 
 ```
-almaty-brt-bot/
+almaty-lrt-bot/
 ├── README.md                      # Project documentation
 ├── requirements.txt               # Python dependencies
 ├── config.yaml                    # Configuration file
@@ -89,7 +89,7 @@ almaty-brt-bot/
 │   ├── test_models.py
 │   └── test_api.py
 └── assets/
-    ├── brt-concept.png            # Project conceptual diagram
+    ├── lrt-concept.png            # Project conceptual diagram
     ├── real-intersection-1.jpg     # Field photography
     └── real-intersection-2.jpg     # Field photography
 ```
@@ -103,7 +103,7 @@ To understand key bottlenecks along the transit corridors, feature importance we
 ### Key Insights
 
 * **Conflict Risk Index & Peak Hours:** Unregulated turning points during rush hours account for over **45%** of predictable delay variations.
-* **BRT Lane Isolation:** Physical segregation of bus corridors directly mitigates speed drop risks caused by micro-mobility vehicles and private cars.
+* **LRT Corridor Isolation:** Physical segregation of rail corridors directly mitigates speed drop risks caused by micro-mobility vehicles and private cars.
 * **Topography & Elevation Slope:** Urban slope changes in Almaty (north-south elevation gain) measurably impact acceleration and delay recovery times.
 * **Passenger Density Lag Effects:** 30-minute lagged passenger density is the third strongest predictor, indicating cumulative boarding friction.
 * **Time-of-Day Seasonality:** Morning rush hour (7–9 AM) and evening peak (5–7 PM) exhibit distinct delay profiles requiring separate model calibration.
@@ -318,8 +318,8 @@ Process multiple predictions in a single request for corridor-level analysis.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/almaty-brt-Prediction-Platform.git
-cd almaty-brt-Prediction-Platform
+git clone https://github.com/yourusername/almaty-lrt-Prediction-Platform.git
+cd almaty-lrt-Prediction-Platform
 ```
 
 ### 2. Create Virtual Environment
@@ -371,7 +371,7 @@ Edit `config.yaml` with your environment-specific parameters:
 # config.yaml
 model:
   type: "xgboost"
-  name: "brt_delay_predictor"
+  name: "lrt_delay_predictor"
   version: "1.2"
   model_path: "data/models/xgboost_model.pkl"
   
@@ -678,7 +678,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 For questions, issues, or suggestions:
 
-- **Issues:** [GitHub Issues](https://github.com/yourusername/almaty-brt-bot/issues)
+- **Issues:** [GitHub Issues](https://github.com/yourusername/almaty-lrt-bot/issues)
 - **Email:** erbulanbombi@gmail.com
 - **Project Lead:** BOMBI
 
