@@ -104,11 +104,11 @@ def train():
         "model_comparison": comparison,
     }
 
-    # Сохраняем отчет в metrics.json
+    # Save the metrics report.
     with open(config['model']['reports_path'], 'w', encoding='utf-8') as f:
         json.dump(metrics, f, indent=4)
 
-    # Сохраняем обученную модель
+    # Save the trained model.
     joblib.dump({'preprocessor': preprocessor, 'model': model}, config['model']['save_path'])
 
     print(f"Metrics: {metrics}")

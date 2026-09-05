@@ -16,44 +16,44 @@
     <section class="intro">
       <div>
         <p class="eyebrow">01 / LRT NETWORK INTELLIGENCE</p>
-        <h1>Проверь,<br><em>как движется</em> город.</h1>
-        <p class="lede">Маршрут, ML-прогноз и сценарий движения в одном интерактивном демо.</p>
+        <h1>Explore how<br><em>the city moves.</em></h1>
+        <p class="lede">Route planning, ML prediction, and movement scenarios in one interactive demo.</p>
       </div>
       <div class="intro-note"><span>LIVE MODEL</span><b>delay prediction</b><small>synthetic data / research prototype</small></div>
     </section>
 
     <section class="workspace">
       <div class="network-panel panel">
-        <div class="panel-head"><div><span class="eyebrow">02 / ROUTE PLANNER</span><h2>LRT-сеть</h2></div><span class="algorithm">DIJKSTRA</span></div>
+        <div class="panel-head"><div><span class="eyebrow">02 / ROUTE PLANNER</span><h2>LRT network</h2></div><span class="algorithm">DIJKSTRA</span></div>
         <div class="route-controls">
-          <label>Откуда<select id="startStation"><option>LRT-1</option><option>LRT-2</option><option>LRT-3</option><option>LRT-4</option><option>LRT-5</option><option>LRT-6</option></select></label>
+          <label>From<select id="startStation"><option>LRT-1</option><option>LRT-2</option><option>LRT-3</option><option>LRT-4</option><option>LRT-5</option><option>LRT-6</option></select></label>
           <span class="arrow">→</span>
-          <label>Куда<select id="endStation"><option>LRT-6</option><option>LRT-5</option><option>LRT-4</option><option>LRT-3</option><option>LRT-2</option><option>LRT-1</option></select></label>
+          <label>To<select id="endStation"><option>LRT-6</option><option>LRT-5</option><option>LRT-4</option><option>LRT-3</option><option>LRT-2</option><option>LRT-1</option></select></label>
         </div>
-        <div id="network" class="network" aria-label="Граф LRT маршрута"></div>
-        <div class="route-result"><div><span>ОПТИМАЛЬНЫЙ МАРШРУТ</span><strong id="routePath">LRT-1 → LRT-3 → LRT-5 → LRT-6</strong></div><div><span>ДИСТАНЦИЯ</span><strong id="routeDistance">12.5 км</strong></div></div>
+        <div id="network" class="network" aria-label="LRT route graph"></div>
+        <div class="route-result"><div><span>SHORTEST ROUTE</span><strong id="routePath">LRT-1 → LRT-3 → LRT-5 → LRT-6</strong></div><div><span>DISTANCE</span><strong id="routeDistance">12.5 km</strong></div></div>
       </div>
 
       <div class="prediction-panel panel">
-        <div class="panel-head"><div><span class="eyebrow">03 / ML PREDICTION</span><h2>Прогноз задержки</h2></div><span class="model-tag">HGBR</span></div>
-        <div class="metric"><strong id="prediction">6.54</strong><span>минут<br>ожидаемой задержки</span></div>
+          <div class="panel-head"><div><span class="eyebrow">03 / ML PREDICTION</span><h2>Delay prediction</h2></div><span class="model-tag">HGBR</span></div>
+        <div class="metric"><strong id="prediction">6.54</strong><span>minutes<br>expected delay</span></div>
         <div class="meter"><div id="meterFill"></div></div>
-        <div class="metric-row"><span>Сценарий</span><b id="scenarioLabel">смешанный поток</b></div>
-        <div class="metric-row"><span>Надёжность графика</span><b id="onTime">55%</b></div>
+        <div class="metric-row"><span>Scenario</span><b id="scenarioLabel">mixed traffic</b></div>
+        <div class="metric-row"><span>Schedule reliability</span><b id="onTime">55%</b></div>
       </div>
     </section>
 
     <section class="simulation panel">
-      <div class="panel-head simulation-head"><div><span class="eyebrow">04 / WHAT-IF SIMULATION</span><h2>Измени условия движения</h2></div><button id="resetButton" type="button">Сбросить</button></div>
+      <div class="panel-head simulation-head"><div><span class="eyebrow">04 / WHAT-IF SIMULATION</span><h2>Change movement conditions</h2></div><button id="resetButton" type="button">Reset</button></div>
       <div class="simulation-grid">
         <div class="sliders">
-          <label class="slider-label"><span><b>Traffic</b><small>нагрузка на пересечения</small></span><output id="trafficValue">45%</output></label><input id="traffic" type="range" min="0" max="100" value="45">
-          <label class="slider-label"><span><b>Passenger demand</b><small>плотность пассажиропотока</small></span><output id="demandValue">50%</output></label><input id="demand" type="range" min="0" max="100" value="50">
-          <label class="slider-label"><span><b>LRT frequency</b><small>рейсов в час</small></span><output id="frequencyValue">15</output></label><input id="frequency" type="range" min="6" max="30" value="15">
+          <label class="slider-label"><span><b>Traffic</b><small>intersection load</small></span><output id="trafficValue">45%</output></label><input id="traffic" type="range" min="0" max="100" value="45">
+          <label class="slider-label"><span><b>Passenger demand</b><small>passenger flow density</small></span><output id="demandValue">50%</output></label><input id="demand" type="range" min="0" max="100" value="50">
+          <label class="slider-label"><span><b>LRT frequency</b><small>services per hour</small></span><output id="frequencyValue">15</output></label><input id="frequency" type="range" min="6" max="30" value="15">
         </div>
         <div class="simulation-output"><div class="output-card accent"><span>DELAY</span><strong id="simDelay">4.12 <small>min</small></strong><div class="bar"><i id="delayBar"></i></div></div><div class="output-card"><span>TRAVEL TIME</span><strong id="travelTime">26.20 <small>min</small></strong><div class="bar"><i id="timeBar"></i></div></div></div>
       </div>
-      <p class="formula">Сценарий пересчитывается локально по формуле прототипа. Для production-модели подключи API <code>/simulate</code>.</p>
+      <p class="formula">The scenario is recalculated locally with the prototype formula. Connect the <code>/simulate</code> API for a production model.</p>
     </section>
 
     <section class="flow"><span>INPUT</span><b>route stations</b><i>→</i><span>MODEL</span><b>predicted delay</b><i>→</i><span>OUTPUT</span><b>simulation result</b></section>

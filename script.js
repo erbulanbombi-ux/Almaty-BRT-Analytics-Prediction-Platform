@@ -58,7 +58,7 @@ function renderNetwork(path) {
 function updateRoute() {
   const result = dijkstra($('startStation').value, $('endStation').value);
   $('routePath').textContent = result.path.join(' → ');
-  $('routeDistance').textContent = `${result.distance.toFixed(1)} км`;
+  $('routeDistance').textContent = `${result.distance.toFixed(1)} km`;
   renderNetwork(result.path);
 }
 
@@ -79,7 +79,7 @@ function updateSimulation() {
   $('meterFill').style.width = `${Math.min(100, delay / 10 * 100)}%`;
   $('delayBar').style.width = `${Math.min(100, delay / 10 * 100)}%`;
   $('timeBar').style.width = `${Math.min(100, travelTime / 35 * 100)}%`;
-  $('scenarioLabel').textContent = traffic > 65 ? 'высокая нагрузка' : traffic < 30 ? 'свободный поток' : 'смешанный поток';
+  $('scenarioLabel').textContent = traffic > 65 ? 'high load' : traffic < 30 ? 'free flow' : 'mixed traffic';
   updateModelPrediction(traffic, demand, frequency);
 }
 

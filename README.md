@@ -1,38 +1,38 @@
 # Almaty LRT Simulation Lab
 
-Интерактивный исследовательский прототип для анализа будущей LRT-сети Алматы. Главный сценарий проекта находится на одной странице:
+An interactive research prototype for exploring a future LRT network in Almaty. The main project flow is available on one page:
 
-`LRT route → stations → predicted delay → simulation result`
+`LRT route -> stations -> predicted delay -> simulation result`
 
-> Данные и расчёты в текущей версии синтетические. Проект демонстрирует инженерный и ML-подход, но не является официальным прогнозом транспортной системы Алматы.
+> The current data and calculations are synthetic. This project demonstrates an engineering and ML workflow and is not an official forecast for Almaty's transport system.
 
 ![CI](https://github.com/erbulanbombi-ux/Almaty-LRT-Analytics-Prediction-Platform/actions/workflows/ci.yml/badge.svg)
 
-## Что можно сделать
+## What you can do
 
-- выбрать станции отправления и назначения;
-- найти кратчайший путь по LRT-сети алгоритмом Dijkstra;
-- изменить `traffic`, `passenger demand` и `LRT frequency`;
-- увидеть, как меняются задержка, время поездки и вероятность соблюдения расписания;
-- обучить модель `HistGradientBoostingRegressor` на демонстрационном датасете;
-- сравнить модель с Ridge baseline и проверить её через `TimeSeriesSplit`;
-- открыть EDA notebook с распределениями и корреляциями.
+- choose departure and destination stations;
+- find the shortest route through the LRT network with Dijkstra;
+- change `traffic`, `passenger demand`, and `LRT frequency`;
+- see how delay, travel time, and schedule reliability change;
+- train a `HistGradientBoostingRegressor` on the demonstration dataset;
+- compare the model with a Ridge baseline using `TimeSeriesSplit`;
+- open the EDA notebook with distributions and correlations.
 
-## Запуск demo
+## Run the demo
 
-Для статического интерактивного demo:
+Start a local static server:
 
 ```powershell
 python -m http.server 5500
 ```
 
-Откройте <http://localhost:5500>.
+Open <http://localhost:5500>.
 
-Страница работает без Python API: simulation и поиск маршрута выполняются в браузере. Поэтому demo удобно показывать локально даже без сервера модели.
+The page works without the Python API: route planning and simulation run in the browser. When the API is running, the ML prediction card also requests the `/predict` endpoint.
 
-## Запуск ML API
+## Run the ML API
 
-Создайте окружение и установите зависимости:
+Create an environment and install dependencies:
 
 ```powershell
 python -m venv .venv
@@ -40,69 +40,69 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Обучите модель и запустите API:
+Train the model and start the API:
 
 ```powershell
 python train.py
 uvicorn app:app --reload
 ```
 
-Доступные endpoints:
+Available endpoints:
 
-- `GET /health` — состояние модели;
-- `POST /predict` — прогноз задержки по признакам;
-- `POST /simulate` — расчёт сценария движения;
-- `POST /route` — кратчайший маршрут Dijkstra.
+- `GET /health` - model status;
+- `POST /predict` - delay prediction from model features;
+- `POST /simulate` - movement scenario calculation;
+- `POST /route` - shortest route with Dijkstra.
 
-Полная интерактивная документация API доступна автоматически по `/docs`, а README намеренно оставлен коротким.
+Interactive API documentation is available at `/docs`. The README intentionally keeps API examples short.
 
-## Модель и данные
+## Model and data
 
-`train.py` сохраняет модель в `models/brt_model.joblib`, а метрики в `reports/metrics.json`. Исторические имена `brt_*` оставлены для совместимости с текущими файлами проекта.
+`train.py` saves the model to `models/brt_model.joblib` and metrics to `reports/metrics.json`. The historical `brt_*` names remain for compatibility with the current files.
 
-Признаки модели включают уклон, степень изоляции коридора, конфликтные повороты, пассажиропоток, предыдущие задержки, коридор, погоду и час пик. Целевая переменная — `delay_minutes`.
+Model features include elevation, corridor isolation, turning conflicts, passenger demand, previous delays, corridor, weather, and peak-hour status. The target is `delay_minutes`.
 
-Метрики последнего обучения нельзя переносить на реальную LRT-систему: датасет синтетический и нужен для проверки pipeline.
+Metrics from the current training run must not be treated as real-world LRT accuracy because the dataset is synthetic and exists to validate the pipeline.
 
-## Алгоритм маршрута
+## Route algorithm
 
-`route_planner.py` содержит взвешенный граф станций и реализацию Dijkstra. Вес ребра — расстояние между станциями в километрах. Алгоритм возвращает список станций оптимального пути и его длину.
+`route_planner.py` contains a weighted station graph and a Dijkstra implementation. Each edge weight is the distance between stations in kilometers. The algorithm returns the optimal station path and its total distance.
 
-## Структура
+## Project structure
 
 ```text
-├── index.html              # Одностраничное интерактивное demo
-├── style.css               # Интерфейс Simulation Lab
-├── script.js               # Dijkstra и simulation в браузере
-├── app.py                  # FastAPI endpoints
-├── route_planner.py        # Граф LRT и Dijkstra
-├── train.py                # Обучение и TimeSeriesSplit
-├── predict.py              # Локальный прогноз
-├── data_generator.py       # Синтетические данные
-├── visualize.py            # Графики и permutation importance
-├── notebooks/01_eda.ipynb  # Исследовательский notebook
-├── tests/                  # Smoke-тесты
-├── Dockerfile              # Запуск API в контейнере
-└── .github/workflows/ci.yml # Проверки при push и pull request
+├── index.html                # Single-page interactive demo
+├── style.css                 # Simulation Lab interface
+├── script.js                 # Browser Dijkstra and simulation
+├── app.py                    # FastAPI endpoints
+├── route_planner.py          # LRT graph and Dijkstra
+├── train.py                  # Training and TimeSeriesSplit
+├── predict.py                # Local prediction example
+├── data_generator.py         # Synthetic data generator
+├── visualize.py              # Charts and permutation importance
+├── notebooks/01_eda.ipynb    # Exploratory notebook
+├── tests/                    # Smoke tests
+├── Dockerfile                # Containerized API
+└── .github/workflows/ci.yml  # Checks on push and pull request
 ```
 
-## Проверки
+## Checks
 
 ```powershell
 python -m pytest -q
 python -m py_compile app.py route_planner.py train.py predict.py visualize.py data_generator.py
 ```
 
-CI автоматически запускает обучение и тесты при каждом push или pull request.
+CI automatically runs training and tests on every push or pull request.
 
-## Следующие шаги
+## Next steps
 
-1. Подключить реальные GTFS/GPS-данные после проверки лицензии и качества источника.
-2. Добавить SHAP для объяснения отдельных прогнозов.
-3. Добавить prediction intervals после выбора и валидации quantile-модели.
-4. Заменить демонстрационный граф на подтверждённую схему станций и пересадок.
-5. Опубликовать API после настройки секретов, мониторинга и отдельного deployment-конфига.
+1. Connect real GTFS/GPS data after checking source licensing and quality.
+2. Add SHAP explanations for individual predictions.
+3. Add prediction intervals after selecting and validating a quantile model.
+4. Replace the demonstration graph with a verified station and interchange map.
+5. Publish the API only after adding secrets management, monitoring, and deployment configuration.
 
-## Лицензия
+## License
 
-Лицензия проекта пока не указана. Перед публичным релизом добавьте фактическую лицензию и проверьте права на материалы в `assets/`.
+No project license has been specified yet. Add the actual license before public release and verify publication rights for all files in `assets/`.
