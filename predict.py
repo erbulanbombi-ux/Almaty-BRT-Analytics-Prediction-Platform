@@ -20,7 +20,7 @@ def predict():
         "passenger_density": 4.5,
         "delay_lag_15m": 1.2,
         "delay_lag_30m": 0.8,
-        "corridor_id": "BRT-1",
+        "corridor_id": "LRT-1",
         "weather_impact": "clear",
         "is_peak_hour": 1
     }])

@@ -4,7 +4,7 @@ import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-app = FastAPI(title="Almaty BRT Delay Prediction API")
+app = FastAPI(title="Almaty LRT Delay Prediction API")
 
 with open("config.yaml", "r", encoding="utf-8") as f:
     config = yaml.safe_load(f)
@@ -26,7 +26,11 @@ class FeaturesInput(BaseModel):
 
 @app.get("/")
 def home():
-    return {"status": "OK", "message": "BRT Delay Prediction API Active"}
+    return {"status": "OK", "message": "LRT Delay Prediction API Active"}
+
+@app.get("/health")
+def health():
+    return {"status": "healthy", "model_loaded": model is not None}
 
 @app.post("/predict")
 def predict_delay(data: FeaturesInput):

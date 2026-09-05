@@ -5,7 +5,18 @@
 
 An end-to-end Data Science and Machine Learning platform analyzing urban transit efficiency, station design trade-offs, and predicting bus delays across the Light Rail Transit (LRT) network in Almaty, Kazakhstan. This project combines real-world infrastructure analysis with predictive modeling to optimize light rail transit operations and urban mobility.
 
-**Tech Stack:** Python, FastAPI, XGBoost, Pandas, NumPy, Scikit-learn, Pydantic
+**Tech Stack:** Python, FastAPI, Pandas, NumPy, Scikit-learn, Pydantic, Three.js
+
+![CI](https://github.com/erbulanbombi-ux/Almaty-LRT-Analytics-Prediction-Platform/actions/workflows/ci.yml/badge.svg)
+
+### Current project status
+
+- Time-aware evaluation with `TimeSeriesSplit` is included in `train.py`.
+- A `Ridge` baseline is compared with `HistGradientBoostingRegressor`.
+- EDA is available in [notebooks/01_eda.ipynb](notebooks/01_eda.ipynb).
+- API health monitoring is available at `GET /health`.
+- Automated tests run through GitHub Actions and can be started locally with `pytest -q`.
+- A minimal Docker image is defined in [Dockerfile](Dockerfile).
 
 ---
 
@@ -127,7 +138,7 @@ The core ML pipeline evaluates corridor delay drivers using an **XGBoost / Gradi
 
 ### 1. $R^2$ Score (Coefficient of Determination)
 
-Measures the proportion of variance in bus delays predictable from the feature set:
+Measures the proportion of variance in LRT delays predictable from the feature set:
 
 $$R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}$$
 
@@ -177,7 +188,7 @@ $$\text{RMSE} = \sqrt{\text{MSE}} = \sqrt{0.4671}$$
 
 ## 🔌 REST API Integration (FastAPI)
 
-The platform includes a real-time delay inference microservice built with **FastAPI**. The API accepts transit corridor parameters and returns predicted bus delay in minutes.
+The platform includes a real-time delay inference microservice built with **FastAPI**. The API accepts LRT corridor parameters and returns predicted delay in minutes.
 
 ### `POST /predict`
 
@@ -190,16 +201,19 @@ Calculates expected bus delay in minutes based on transit corridor parameters.
 Content-Type: application/json
 ```
 
-**Request Body:**
+**Request Body:** All model features are required.
 
 ```json
 {
   "elevation_slope_deg": 2.5,
   "lane_isolation_score": 0.8,
   "turning_conflicts": 3,
-  "passenger_density": 4.5,
+  "passenger_density": 45.0,
   "delay_lag_15m": 1.2,
-  "delay_lag_30m": 0.8
+  "delay_lag_30m": 0.8,
+  "corridor_id": "LRT-1",
+  "weather_impact": "clear",
+  "is_peak_hour": 1
 }
 ```
 
@@ -207,14 +221,7 @@ Content-Type: application/json
 
 ```json
 {
-  "predicted_delay_minutes": 1.847,
-  "confidence_interval": {
-    "lower_bound": 1.124,
-    "upper_bound": 2.571
-  },
-  "risk_level": "moderate",
-  "timestamp": "2026-08-29T14:32:45Z",
-  "model_version": "xgboost-v1.2"
+  "predicted_delay_minutes": 1.85
 }
 ```
 
@@ -227,8 +234,7 @@ Health check endpoint to verify API availability.
 ```json
 {
   "status": "healthy",
-  "model_loaded": true,
-  "version": "1.0.0"
+  "model_loaded": true
 }
 ```
 

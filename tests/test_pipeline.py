@@ -1,0 +1,46 @@
+import json
+from pathlib import Path
+
+import pandas as pd
+from fastapi.testclient import TestClient
+
+import app
+import train
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_training_writes_time_series_metrics():
+    metrics = json.loads((ROOT / "reports" / "metrics.json").read_text(encoding="utf-8"))
+    assert len(metrics["time_series_cv"]) == 5
+    assert "Ridge baseline" in metrics["model_comparison"]
+    assert "HistGradientBoosting" in metrics["model_comparison"]
+
+
+def test_training_columns_match_config():
+    config = train.load_config(ROOT / "config.yaml")
+    data = pd.read_csv(ROOT / config["data"]["raw_path"])
+    columns = config["model"]["features"]["numeric"] + config["model"]["features"]["categorical"]
+    assert set(columns + [config["model"]["target"]]).issubset(data.columns)
+
+
+def test_api_health_and_prediction():
+    client = TestClient(app.app)
+    assert client.get("/health").json() == {"status": "healthy", "model_loaded": True}
+    response = client.post(
+        "/predict",
+        json={
+            "elevation_slope_deg": 2.5,
+            "lane_isolation_score": 0.8,
+            "turning_conflicts": 3,
+            "passenger_density": 45.0,
+            "delay_lag_15m": 1.2,
+            "delay_lag_30m": 0.8,
+            "corridor_id": "LRT-1",
+            "weather_impact": "clear",
+            "is_peak_hour": 1,
+        },
+    )
+    assert response.status_code == 200
+    assert response.json()["predicted_delay_minutes"] >= 0
